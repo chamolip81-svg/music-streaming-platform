@@ -1,15 +1,14 @@
 import express from "express";
 import cors from "cors";
 import limiter from "./middlewares/rateLimiter.js";
+import musicRoutes from "./routes/music.routes.js";
 
 const app = express();
 
-/* Security */
 app.use(cors());
 app.use(express.json({ limit: "10kb" }));
 app.use(limiter);
 
-/* Health */
 app.get("/health", (req, res) => {
   res.status(200).json({
     status: "ok",
@@ -17,5 +16,8 @@ app.get("/health", (req, res) => {
     timestamp: new Date().toISOString()
   });
 });
+
+/* Music API */
+app.use("/api/music", musicRoutes);
 
 export default app;
