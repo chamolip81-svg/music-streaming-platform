@@ -1,3 +1,4 @@
+console.log("APP.JS LOADED — NO RATE LIMIT");
 import express from "express";
 import cors from "cors";
 // import limiter from "./middlewares/rateLimiter.js";
