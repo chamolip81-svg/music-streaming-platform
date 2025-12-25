@@ -1,15 +1,13 @@
-import fetch from "node-fetch";
-
 const BASE_URL = "https://www.jiosaavn.com/api.php";
 
 const HEADERS = {
   "User-Agent":
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36",
   "Referer": "https://www.jiosaavn.com/",
   "Accept": "application/json"
 };
 
-/* ✅ SEARCH — FINAL & CORRECT */
+/* SEARCH */
 export async function saavnSearch(query) {
   const url =
     `${BASE_URL}` +
@@ -23,13 +21,13 @@ export async function saavnSearch(query) {
   const res = await fetch(url, { headers: HEADERS });
 
   if (!res.ok) {
-    throw new Error("Saavn search blocked");
+    throw new Error("Saavn search failed");
   }
 
   return res.json();
 }
 
-/* ✅ SONG DETAILS — FINAL & CORRECT */
+/* SONG DETAILS */
 export async function saavnSongDetails(id) {
   const url =
     `${BASE_URL}` +
@@ -43,7 +41,7 @@ export async function saavnSongDetails(id) {
   const res = await fetch(url, { headers: HEADERS });
 
   if (!res.ok) {
-    throw new Error("Saavn song details blocked");
+    throw new Error("Saavn song details failed");
   }
 
   return res.json();
