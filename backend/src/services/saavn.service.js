@@ -1,28 +1,39 @@
 import fetch from "node-fetch";
 
-const SAAVN_BASE = "https://saavn.sumit.co";
+const BASE_URL = "https://www.jiosaavn.com/api.php";
 
+/* COMMON HEADERS (MANDATORY FOR RENDER / CLOUD) */
+const HEADERS = {
+  "User-Agent":
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+  "Accept": "application/json",
+  "Referer": "https://www.jiosaavn.com/",
+};
 
+/* SEARCH SONGS */
 export async function searchSongs(query) {
-  const url = `${SAAVN_BASE}/api/search/songs?query=${encodeURIComponent(query)}`;
+  const url = `${BASE_URL}?_format=json&_marker=0&api_version=4&ctx=web6dot0&method=search.getResults&q=${encodeURIComponent(
+    query
+  )}`;
 
-  const res = await fetch(url);
+  const res = await fetch(url, { headers: HEADERS });
+
   if (!res.ok) {
-    throw new Error("Failed to fetch from Saavn");
+    throw new Error("Failed to fetch search results");
   }
 
-  const data = await res.json();
-  return data;
+  return res.json();
 }
 
-export async function getSongDetails(songId) {
-  const url = `${SAAVN_BASE}/api/songs/${songId}`;
+/* SONG DETAILS (CRITICAL FOR STREAMING) */
+export async function getSongDetails(id) {
+  const url = `${BASE_URL}?_format=json&_marker=0&api_version=4&ctx=web6dot0&method=song.getDetails&songid=${id}`;
 
-  const res = await fetch(url);
+  const res = await fetch(url, { headers: HEADERS });
+
   if (!res.ok) {
     throw new Error("Failed to fetch song details");
   }
 
-  const data = await res.json();
-  return data;
+  return res.json();
 }
