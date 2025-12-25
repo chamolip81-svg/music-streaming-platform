@@ -6,3 +6,8 @@ export async function searchSongs(query) {
   );
   return res.json();
 }
+
+export async function getSongStream(id) {
+  const res = await fetch(`${API_BASE}/api/music/song/${id}`);
+  return res.json();
+}

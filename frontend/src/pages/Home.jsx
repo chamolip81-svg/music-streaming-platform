@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { searchSongs } from "../services/api";
+import { searchSongs, getSongStream } from "../services/api";
+import { usePlayer } from "../context/PlayerContext";
 
 function Home() {
   const [songs, setSongs] = useState([]);
+  const { setCurrentSong } = usePlayer();
 
   async function handleSearch(e) {
     if (e.key === "Enter") {
@@ -11,15 +13,21 @@ function Home() {
     }
   }
 
+  async function playSong(song) {
+    const data = await getSongStream(song.id);
+    setCurrentSong({
+      title: song.name || song.title,
+      artist: song.primaryArtists,
+      url: data.streamUrl
+    });
+  }
+
   return (
     <div>
-      <input
-        placeholder="Type and press Enter"
-        onKeyDown={handleSearch}
-      />
+      <input placeholder="Search and press Enter" onKeyDown={handleSearch} />
 
       {songs.map((song) => (
-        <div key={song.id}>
+        <div key={song.id} onClick={() => playSong(song)}>
           {song.name || song.title}
         </div>
       ))}
