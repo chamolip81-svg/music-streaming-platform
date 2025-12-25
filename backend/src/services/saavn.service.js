@@ -7,7 +7,7 @@ const HEADERS = {
   "Accept": "application/json"
 };
 
-/* SEARCH */
+/* ✅ WORKING SEARCH (SERVER SAFE) */
 export async function saavnSearch(query) {
   const url =
     `${BASE_URL}` +
@@ -15,7 +15,8 @@ export async function saavnSearch(query) {
     `&_marker=0` +
     `&api_version=4` +
     `&ctx=web6dot0` +
-    `&method=search.getResults` +
+    `&method=search.getSong` +
+    `&p=1` +
     `&q=${encodeURIComponent(query)}`;
 
   const res = await fetch(url, { headers: HEADERS });
@@ -27,7 +28,7 @@ export async function saavnSearch(query) {
   return res.json();
 }
 
-/* SONG DETAILS */
+/* ✅ WORKING SONG DETAILS */
 export async function saavnSongDetails(id) {
   const url =
     `${BASE_URL}` +
