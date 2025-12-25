@@ -1,8 +1,14 @@
+import Header from "./layout/Header";
+import Home from "./pages/Home";
+import Player from "./layout/Player";
+
 function App() {
   return (
-    <div>
-      <h1>Music Streaming App</h1>
-    </div>
+    <>
+      <Header />
+      <Home />
+      <Player />
+    </>
   );
 }
 
