@@ -5,3 +5,89 @@ html, body {
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
 }
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-slideUp {
+  animation: slideUp 0.25s ease-out forwards;
+}
+/* Prevent content from hiding behind bottom nav */
+body {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+/* Hide scrollbar but keep scroll */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  scrollbar-width: none;
+}
+/* Smooth page fade */
+.page-enter {
+  animation: pageFade 220ms ease-out;
+}
+@keyframes pageFade {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Card hover lift */
+.card {
+  transition: transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0,0,0,.35);
+}
+
+/* Button press */
+.press {
+  transition: transform 120ms ease;
+}
+.press:active {
+  transform: scale(.97);
+}
+
+/* Active nav glow */
+.nav-active {
+  color: #22c55e;
+  text-shadow: 0 0 12px rgba(34,197,94,.35);
+}
+button {
+  transition: color 0.15s ease, background 0.15s ease, transform 0.1s ease;
+}
+button:active {
+  transform: scale(0.95);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.25s ease-out;
+}
+* {
+  -webkit-user-select: none;
+  user-select: none;
+}
+input, textarea {
+  -webkit-user-select: text;
+  user-select: text;
+}
+input[type="range"] {
+  cursor: pointer;
+}

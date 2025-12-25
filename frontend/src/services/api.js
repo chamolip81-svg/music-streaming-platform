@@ -1,13 +1,11 @@
-const API_BASE = "http://localhost:5000";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
-export async function searchSongs(query) {
-  const res = await fetch(
-    `${API_BASE}/api/music/search?q=${encodeURIComponent(query)}`
-  );
+export async function searchSongs(q) {
+  const res = await fetch(`${BASE_URL}/search?q=${encodeURIComponent(q)}`);
   return res.json();
 }
 
 export async function getSongStream(id) {
-  const res = await fetch(`${API_BASE}/api/music/song/${id}`);
+  const res = await fetch(`${BASE_URL}/stream/${id}`);
   return res.json();
 }

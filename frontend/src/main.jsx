@@ -1,16 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
+import App from "./App";
 import { PlayerProvider } from "./context/PlayerContext";
-import ErrorBoundary from "./ErrorBoundary";
+import { FavoritesProvider } from "./context/FavoritesContext";
+import { PlaylistsProvider } from "./context/PlaylistsContext";
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <ErrorBoundary>
-      <PlayerProvider>
-        <App />
-      </PlayerProvider>
-    </ErrorBoundary>
+    <PlayerProvider>
+      <FavoritesProvider>
+        <PlaylistsProvider>
+          <App />
+        </PlaylistsProvider>
+      </FavoritesProvider>
+    </PlayerProvider>
   </React.StrictMode>
 );
