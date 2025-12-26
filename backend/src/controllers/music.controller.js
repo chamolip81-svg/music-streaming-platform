@@ -1,36 +1,34 @@
 import { saavnSearch, saavnSongDetails } from "../services/saavn.service.js";
 
-const HEADERS = {
-  "User-Agent":
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36",
-  "Referer": "https://www.jiosaavn.com/"
-};
-
 /* SEARCH */
-export async function searchSongs(req, res) {
+export async function search(req, res) {
   try {
     const q = req.query.q;
-    if (!q) return res.status(400).json({ error: "Query required" });
+    if (!q) {
+      return res.status(400).json({ error: "Query missing" });
+    }
 
     const data = await saavnSearch(q);
     res.json(data);
-  } catch {
+  } catch (err) {
+    console.error("SEARCH ERROR:", err.message);
     res.status(500).json({ error: "Search failed" });
   }
 }
 
 /* SONG DETAILS */
-export async function getSongDetails(req, res) {
+export async function songDetails(req, res) {
   try {
     const id = req.params.id;
     const data = await saavnSongDetails(id);
     res.json(data);
-  } catch {
+  } catch (err) {
+    console.error("DETAILS ERROR:", err.message);
     res.status(500).json({ error: "Song details failed" });
   }
 }
 
-/* 🔥 STREAM AUDIO (FINAL) */
+/* STREAM AUDIO */
 export async function streamSong(req, res) {
   try {
     const id = req.params.id;
@@ -49,14 +47,24 @@ export async function streamSong(req, res) {
     const audioUrl =
       song.downloadUrl.slice().reverse().find(u => u.url)?.url;
 
-    const response = await fetch(audioUrl, { headers: HEADERS });
+    if (!audioUrl) {
+      return res.status(404).json({ error: "No stream URL" });
+    }
+
+    const response = await fetch(audioUrl, {
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36",
+        "Referer": "https://www.jiosaavn.com/"
+      }
+    });
 
     res.setHeader("Content-Type", "audio/mpeg");
     res.setHeader("Accept-Ranges", "bytes");
 
     response.body.pipe(res);
-  } catch (e) {
-    console.error(e);
+  } catch (err) {
+    console.error("STREAM ERROR:", err.message);
     res.status(500).json({ error: "Stream failed" });
   }
 }
